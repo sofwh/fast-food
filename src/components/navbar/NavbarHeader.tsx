@@ -4,12 +4,11 @@ import {
   Input,
   HStack,
   Flex,
-  Stack,
   Box,
   VStack,
   Heading,
   Spacer,
-  Text,
+  Button,
 } from "@chakra-ui/react";
 import { FC } from "react";
 import { FaUser } from "react-icons/fa";
@@ -19,6 +18,7 @@ import { useGetCategoriesQuery } from "../../features/categories";
 const NavbarHeader: FC = () => {
   const { data, error, isLoading } = useGetCategoriesQuery();
   console.log("data", data?.data);
+
   return (
     <div>
       <header className="header-padding">
@@ -37,8 +37,23 @@ const NavbarHeader: FC = () => {
                 <Heading>Food</Heading>
               </HStack>
               <div className="category-data">
+                {isLoading ? (
+                  <Button
+                    isLoading
+                    loadingText="Categories"
+                    colorScheme="teal"
+                    variant="outline"
+                    spinnerPlacement="start"
+                  >
+                    Categories
+                  </Button>
+                ) : null}
                 {data
-                  ? data.data.map((c) => <p key={c.id}>{c.title}</p>)
+                  ? data.data.map((c) => (
+                      <Button variant="outline" key={c.id}>
+                        {c.title}
+                      </Button>
+                    ))
                   : null}
               </div>
             </VStack>

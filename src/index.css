@@ -15,11 +15,22 @@
   display: flex;
   gap: 10px;
   -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
+  -ms-flex-pack: center;
+  justify-content: center;
 }
 
 .category-data p {
   color: red;
 }
-/*# sourceMappingURL=index.css.map */
+.info-text {
+  font-size: 10px;
+}
+
+.info-header {
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.banner-image {
+  width: 100% !important;
+}
