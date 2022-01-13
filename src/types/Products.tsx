@@ -1,3 +1,5 @@
+import { Metas } from "./categories";
+
 export interface Product {
   id: number;
   title: string;
@@ -46,4 +48,10 @@ export interface ImageDetails {
 export interface Warehouse {
   id: number;
   title: string;
+}
+
+export interface ProductData {
+  meta: Metas;
+  data: Product[];
+  code: number;
 }

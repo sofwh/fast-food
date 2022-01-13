@@ -14,10 +14,10 @@ import { FC } from "react";
 import { FaUser } from "react-icons/fa";
 import { BsMinecartLoaded } from "react-icons/bs";
 import { useGetCategoriesQuery } from "../../features/categories";
+import { Link } from "react-router-dom";
 
 const NavbarHeader: FC = () => {
   const { data, error, isLoading } = useGetCategoriesQuery();
-  console.log("data", data?.data);
 
   return (
     <div>
@@ -33,11 +33,12 @@ const NavbarHeader: FC = () => {
           <Box>
             <VStack>
               <HStack>
-                <Heading as="h2">Fast</Heading>
-                <Heading>Food</Heading>
+                <Link to="/">
+                  <Heading as="h2">FastFood</Heading>
+                </Link>
               </HStack>
               <div className="category-data">
-                {isLoading ? (
+                {error || isLoading ? (
                   <Button
                     isLoading
                     loadingText="Categories"
@@ -50,9 +51,9 @@ const NavbarHeader: FC = () => {
                 ) : null}
                 {data
                   ? data.data.map((c) => (
-                      <Button variant="outline" key={c.id}>
-                        {c.title}
-                      </Button>
+                      <Link to={`category/${c.id}`} key={c.id}>
+                        <Button variant="outline">{c.title}</Button>
+                      </Link>
                     ))
                   : null}
               </div>

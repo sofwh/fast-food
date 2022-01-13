@@ -31,7 +31,7 @@ const responsive = {
   },
 };
 
-const HealthyDishes: FC = () => {
+const FeaturedProducts: FC = () => {
   const { data, error, isLoading } = useGetHomeQuery();
   return (
     <>
@@ -39,7 +39,7 @@ const HealthyDishes: FC = () => {
       <Container maxWidth="80em">
         <Carousel responsive={responsive}>
           {data ? (
-            (data.data[4].sectionDetails.products as Product[]).map(
+            (data.data[6].sectionDetails.products as Product[]).map(
               (p: Product) => (
                 <Box
                   maxW="xs"
@@ -99,4 +99,4 @@ const HealthyDishes: FC = () => {
   );
 };
 
-export default HealthyDishes;
+export default FeaturedProducts;

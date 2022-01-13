@@ -1,4 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap");
+@import "react-multi-carousel/lib/styles.css";
+@import "~react-image-gallery/styles/css/image-gallery.css";
 * {
   margin: 0;
   padding: 0;
@@ -33,4 +35,19 @@
 
 .banner-image {
   width: 100% !important;
+}
+
+.healthy-container {
+  display: grid;
+  margin: auto;
+  padding: 10px 0;
+  grid-template-columns: auto auto auto;
+  gap: 15px;
+}
+
+.product-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
 }

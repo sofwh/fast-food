@@ -6,7 +6,6 @@ import {
   Button,
   Center,
   Container,
-  Flex,
   HStack,
   SimpleGrid,
   Skeleton,
@@ -15,6 +14,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { FC } from "react";
+import { Link } from "react-router-dom";
 import { useGetHomeQuery } from "../../features/home";
 
 const Categories: FC = () => {
@@ -52,7 +52,7 @@ const Categories: FC = () => {
         <SimpleGrid minChildWidth="150px" spacing="10px">
           {data
             ? data.data[1].categories.map((c) => (
-                <Box p="3" backgroundImage={c.icon}>
+                <Box p="3" backgroundImage={c.icon} key={c.id}>
                   <VStack>
                     <Avatar src={c.backgroundImage} />
                     <Box
@@ -65,15 +65,16 @@ const Categories: FC = () => {
                       <Badge m="3" colorScheme="green">
                         {c.productCount} products
                       </Badge>
-
-                      <Button
-                        rightIcon={<TriangleDownIcon />}
-                        variant="outline"
-                        size="xs"
-                        color="red"
-                      >
-                        Shop Now
-                      </Button>
+                      <Link to={`category/${c.id}`}>
+                        <Button
+                          rightIcon={<TriangleDownIcon />}
+                          variant="outline"
+                          size="xs"
+                          color="red"
+                        >
+                          Shop Now
+                        </Button>
+                      </Link>
                     </Box>
                   </VStack>
                 </Box>
