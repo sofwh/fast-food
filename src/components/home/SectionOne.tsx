@@ -8,7 +8,7 @@ const SectionOne: FC = () => {
 
   return (
     <div>
-      {isLoading || error ? <Skeleton height="300px"></Skeleton> : null}
+      {isLoading || error ? <Skeleton height="800px"></Skeleton> : null}
       {data
         ? (data.data[0].details as DataDetails[]).map((banner: DataDetails) =>
             banner.position === 1 ? (

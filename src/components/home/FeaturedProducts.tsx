@@ -2,15 +2,20 @@ import {
   Box,
   Container,
   Skeleton,
+  Button,
+  Center,
   Image,
   Badge,
   HStack,
 } from "@chakra-ui/react";
 import { FC } from "react";
 import { FaLocationArrow } from "react-icons/fa";
+import { AiOutlineSearch } from "react-icons/ai";
+import { BsFillCartCheckFill } from "react-icons/bs";
 import Carousel from "react-multi-carousel";
 import { useGetHomeQuery } from "../../features/home";
 import { Product } from "../../types/Products";
+import { useNavigate } from "react-router-dom";
 
 const responsive = {
   superLargeDesktop: {
@@ -32,6 +37,7 @@ const responsive = {
 };
 
 const FeaturedProducts: FC = () => {
+  const navigate = useNavigate();
   const { data, error, isLoading } = useGetHomeQuery();
   return (
     <>
@@ -82,6 +88,26 @@ const FeaturedProducts: FC = () => {
                     </Box>
 
                     <Box>Rs {p.unitPrice[0].sellingPrice}</Box>
+
+                    <Box p="3">
+                      <Center>
+                        <HStack>
+                          <Button
+                            size="xs"
+                            rightIcon={<AiOutlineSearch />}
+                            onClick={() => {
+                              navigate(`product/${p.id}`);
+                            }}
+                          >
+                            View Product
+                          </Button>
+
+                          <Button size="xs" rightIcon={<BsFillCartCheckFill />}>
+                            Add to Cart
+                          </Button>
+                        </HStack>
+                      </Center>
+                    </Box>
                   </Box>
                 </Box>
               )

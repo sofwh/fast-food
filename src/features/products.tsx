@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { apiKey, baseURL, warehouseId } from "../constant";
-import { ProductData } from "../types/Products";
+import { Product, ProductData, SingleProductData } from "../types/Products";
 
 export const productsApi = createApi({
   reducerPath: "productsApi",
@@ -19,9 +19,9 @@ export const productsApi = createApi({
         method: "GET",
       }),
     }),
-    getSingleProduct: builder.query<ProductData, void>({
-      query: (slug) => ({
-        url: `api/v4/product/${slug}`,
+    getSingleProduct: builder.query<SingleProductData, number>({
+      query: (id) => ({
+        url: `api/v4/product/${id}`,
         method: "GET",
       }),
     }),

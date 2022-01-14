@@ -55,3 +55,9 @@ export interface ProductData {
   data: Product[];
   code: number;
 }
+
+export interface SingleProductData {
+  meta: Metas;
+  data: Product;
+  code: number;
+}

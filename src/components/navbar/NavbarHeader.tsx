@@ -9,15 +9,18 @@ import {
   Heading,
   Spacer,
   Button,
+  FormControl,
 } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { FaUser } from "react-icons/fa";
 import { BsMinecartLoaded } from "react-icons/bs";
 import { useGetCategoriesQuery } from "../../features/categories";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const NavbarHeader: FC = () => {
   const { data, error, isLoading } = useGetCategoriesQuery();
+  const navigate = useNavigate();
+  const [queryValue, setQueryValue] = useState<string | undefined>("");
 
   return (
     <div>
@@ -25,8 +28,21 @@ const NavbarHeader: FC = () => {
         <Flex>
           <Box>
             <HStack>
-              <Input id="product" type="text" placeholder="Search product" />{" "}
-              <IconButton aria-label="Search product" icon={<SearchIcon />} />
+              <Input
+                type="text"
+                value={queryValue}
+                placeholder="Search product"
+              />
+              <Button
+                type="submit"
+                onClick={() => {
+                  setQueryValue(queryValue);
+
+                  navigate(`/products/${queryValue}`);
+                }}
+              >
+                Search
+              </Button>
             </HStack>
           </Box>
           <Spacer />

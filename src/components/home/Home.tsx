@@ -1,5 +1,6 @@
 import { Box, Center, Container, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
+import SingleProduct from "../product/SingleProduct";
 import Banner from "./Banner";
 import Categories from "./Categories";
 import FeaturedProducts from "./FeaturedProducts";

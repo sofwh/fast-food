@@ -5,6 +5,8 @@ import Home from "./components/home/Home";
 import NavbarHeader from "./components/navbar/NavbarHeader";
 import PageNotFound from "./components/PageNotFound";
 import Product from "./components/product/Product";
+import SearchedProducts from "./components/product/SearchedProducts";
+import SingleProduct from "./components/product/SingleProduct";
 
 const App: FC = () => {
   return (
@@ -16,7 +18,8 @@ const App: FC = () => {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/category/:id" element={<Product />} />
-          {/* <Route path="/product/categoryId?=:id" element={<Product />} /> */}
+          <Route path="/product/:id" element={<SingleProduct />} />
+          <Route path=".products/:searchQuery" element={<SearchedProducts />} />
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </main>

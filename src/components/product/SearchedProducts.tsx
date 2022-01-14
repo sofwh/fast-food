@@ -26,20 +26,20 @@ import {
   AiOutlineSearch,
 } from "react-icons/ai";
 import { BsFillCartCheckFill } from "react-icons/bs";
-import { useGetProductByCategoryQuery } from "../../features/products";
+import { useGetSearchedProuductByQueryQuery } from "../../features/products";
 import { useNavigate, useParams } from "react-router";
 import Pagination from "../Pagination";
 import { Product } from "../../types/Products";
-import { Link } from "react-router-dom";
 
 interface idProps {
-  id?: number;
+  searchQuery?: string;
 }
 
-const Products: FC<idProps> = () => {
+const SearchedProducts: FC<idProps> = () => {
   const params = useParams();
-  const id = parseInt(params.id!.toString());
-  const { data, error, isLoading } = useGetProductByCategoryQuery(id);
+  const searchQuery = params.searchQuery!;
+  const { data, error, isLoading } =
+    useGetSearchedProuductByQueryQuery(searchQuery);
   const [products, setProducts] = useState<Product[]>([]);
 
   const navigate = useNavigate();
@@ -108,7 +108,7 @@ const Products: FC<idProps> = () => {
         <Box bg="Menu" p="4">
           <Stack>
             <Text as="kbd" fontSize="4xl" mr={4}>
-              {data?.data[0].categoryTitle}
+              Searched Products :{searchQuery}
             </Text>
             {data?.data.length === 1 ? (
               <>
@@ -335,4 +335,4 @@ const Products: FC<idProps> = () => {
   );
 };
 
-export default Products;
+export default SearchedProducts;
