@@ -1,4 +1,5 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { usersApi } from "../features/auth";
 import { categoriesApi } from "../features/categories";
 import { homeApi } from "../features/home";
 import { productsApi } from "../features/products";
@@ -8,13 +9,15 @@ export const store = configureStore({
     [categoriesApi.reducerPath]: categoriesApi.reducer,
     [homeApi.reducerPath]: homeApi.reducer,
     [productsApi.reducerPath]: productsApi.reducer,
+    [usersApi.reducerPath]: usersApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       categoriesApi.middleware,
       homeApi.middleware,
-      productsApi.middleware
+      productsApi.middleware,
+      usersApi.middleware
     ),
 });
 

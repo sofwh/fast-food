@@ -17,6 +17,13 @@ import {
   Center,
   IconButton,
   ButtonGroup,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  Heading,
+  ModalBody,
 } from "@chakra-ui/react";
 import { FaLocationArrow } from "react-icons/fa";
 import CategoryCard from "../category/CategoryCard";
@@ -29,19 +36,18 @@ import { BsFillCartCheckFill } from "react-icons/bs";
 import { useGetSearchedProuductByQueryQuery } from "../../features/products";
 import { useNavigate, useParams } from "react-router";
 import Pagination from "../Pagination";
+import ProductModal from "../product/ProductModal";
 import { Product } from "../../types/Products";
 
-interface idProps {
-  searchQuery?: string;
-}
-
-const SearchedProducts: FC<idProps> = () => {
-  const params = useParams();
-  const searchQuery = params.searchQuery!;
-  const { data, error, isLoading } =
-    useGetSearchedProuductByQueryQuery(searchQuery);
+const SearchedProducts: FC = () => {
+  const { searchQuery } = useParams<Record<string, string | undefined>>();
+  const { data, error, isLoading } = useGetSearchedProuductByQueryQuery(
+    searchQuery || ""
+  );
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [products, setProducts] = useState<Product[]>([]);
-
+  const [productId, setProductId] = useState(1);
+  const [productName, setProductName] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -107,9 +113,18 @@ const SearchedProducts: FC<idProps> = () => {
       <GridItem rowSpan={2} colSpan={4} bg="white" p="4">
         <Box bg="Menu" p="4">
           <Stack>
-            <Text as="kbd" fontSize="4xl" mr={4}>
-              Searched Products :{searchQuery}
-            </Text>
+            <HStack spacing={2}>
+              <Heading fontSize="4xl" mr={4}>
+                {data?.data[0].categoryTitle}
+              </Heading>
+              <Image
+                src={data?.data[0].categoryIcon}
+                alt=""
+                borderRadius="full"
+                height="100px"
+              />
+            </HStack>
+
             {data?.data.length === 1 ? (
               <>
                 <Text as="kbd" fontSize="xs">
@@ -231,7 +246,15 @@ const SearchedProducts: FC<idProps> = () => {
                             View Product
                           </Button>
 
-                          <Button size="xs" rightIcon={<BsFillCartCheckFill />}>
+                          <Button
+                            size="xs"
+                            rightIcon={<BsFillCartCheckFill />}
+                            onClick={() => {
+                              onOpen();
+                              setProductId(s.id);
+                              setProductName(s.title);
+                            }}
+                          >
                             Add to Cart
                           </Button>
                         </VStack>
@@ -309,6 +332,11 @@ const SearchedProducts: FC<idProps> = () => {
                               <Button
                                 size="xs"
                                 rightIcon={<BsFillCartCheckFill />}
+                                onClick={() => {
+                                  onOpen();
+                                  setProductId(s.id);
+                                  setProductName(s.title);
+                                }}
                               >
                                 Add to Cart
                               </Button>
@@ -331,6 +359,21 @@ const SearchedProducts: FC<idProps> = () => {
           />
         </Box>
       </GridItem>
+      <Modal onClose={onClose} isOpen={isOpen} size="xl" isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            Add{" "}
+            <Text as="kbd" color="red.500">
+              {productName}{" "}
+            </Text>
+            to your Cart
+          </ModalHeader>
+          <ModalBody>
+            <ProductModal id={productId} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Grid>
   );
 };

@@ -7,14 +7,22 @@ import {
   Image,
   Badge,
   HStack,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  Text,
 } from "@chakra-ui/react";
-import { FC } from "react";
+import { FC, useState } from "react";
 import { FaLocationArrow } from "react-icons/fa";
 import { AiOutlineSearch } from "react-icons/ai";
 import { BsFillCartCheckFill } from "react-icons/bs";
 import Carousel from "react-multi-carousel";
 import { useGetHomeQuery } from "../../features/home";
 import { Product } from "../../types/Products";
+import ProductModal from "../product/ProductModal";
 import { useNavigate } from "react-router-dom";
 
 const responsive = {
@@ -39,6 +47,9 @@ const responsive = {
 const FeaturedProducts: FC = () => {
   const navigate = useNavigate();
   const { data, error, isLoading } = useGetHomeQuery();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [productId, setProductId] = useState(1);
+  const [productName, setProductName] = useState("");
   return (
     <>
       {" "}
@@ -102,7 +113,15 @@ const FeaturedProducts: FC = () => {
                             View Product
                           </Button>
 
-                          <Button size="xs" rightIcon={<BsFillCartCheckFill />}>
+                          <Button
+                            size="xs"
+                            rightIcon={<BsFillCartCheckFill />}
+                            onClick={() => {
+                              onOpen();
+                              setProductId(p.id);
+                              setProductName(p.title);
+                            }}
+                          >
                             Add to Cart
                           </Button>
                         </HStack>
@@ -120,6 +139,23 @@ const FeaturedProducts: FC = () => {
             </HStack>
           ) : null}
         </Carousel>
+
+        <Modal onClose={onClose} isOpen={isOpen} size="xl" isCentered>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>
+              Add{" "}
+              <Text as="kbd" color="red.500">
+                {" "}
+                {productName}{" "}
+              </Text>
+              to your Cart
+            </ModalHeader>
+            <ModalBody>
+              <ProductModal id={productId} />
+            </ModalBody>
+          </ModalContent>
+        </Modal>
       </Container>
     </>
   );

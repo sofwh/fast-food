@@ -17,6 +17,13 @@ import {
   Center,
   IconButton,
   ButtonGroup,
+  Heading,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
 } from "@chakra-ui/react";
 import { FaLocationArrow } from "react-icons/fa";
 import CategoryCard from "../category/CategoryCard";
@@ -31,6 +38,7 @@ import { useNavigate, useParams } from "react-router";
 import Pagination from "../Pagination";
 import { Product } from "../../types/Products";
 import { Link } from "react-router-dom";
+import ProductModal from "../product/ProductModal";
 
 interface idProps {
   id?: number;
@@ -39,8 +47,11 @@ interface idProps {
 const Products: FC<idProps> = () => {
   const params = useParams();
   const id = parseInt(params.id!.toString());
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const { data, error, isLoading } = useGetProductByCategoryQuery(id);
   const [products, setProducts] = useState<Product[]>([]);
+  const [productId, setProductId] = useState(1);
+  const [productName, setProductName] = useState("");
 
   const navigate = useNavigate();
 
@@ -107,9 +118,18 @@ const Products: FC<idProps> = () => {
       <GridItem rowSpan={2} colSpan={4} bg="white" p="4">
         <Box bg="Menu" p="4">
           <Stack>
-            <Text as="kbd" fontSize="4xl" mr={4}>
-              {data?.data[0].categoryTitle}
-            </Text>
+            <HStack spacing={2}>
+              <Heading fontSize="4xl" mr={4}>
+                {data?.data[0].categoryTitle}
+              </Heading>
+              <Image
+                src={data?.data[0].categoryIcon}
+                alt=""
+                borderRadius="full"
+                height="100px"
+              />
+            </HStack>
+
             {data?.data.length === 1 ? (
               <>
                 <Text as="kbd" fontSize="xs">
@@ -231,7 +251,15 @@ const Products: FC<idProps> = () => {
                             View Product
                           </Button>
 
-                          <Button size="xs" rightIcon={<BsFillCartCheckFill />}>
+                          <Button
+                            size="xs"
+                            rightIcon={<BsFillCartCheckFill />}
+                            onClick={() => {
+                              onOpen();
+                              setProductId(s.id);
+                              setProductName(s.title);
+                            }}
+                          >
                             Add to Cart
                           </Button>
                         </VStack>
@@ -309,6 +337,11 @@ const Products: FC<idProps> = () => {
                               <Button
                                 size="xs"
                                 rightIcon={<BsFillCartCheckFill />}
+                                onClick={() => {
+                                  onOpen();
+                                  setProductId(s.id);
+                                  setProductName(s.title);
+                                }}
                               >
                                 Add to Cart
                               </Button>
@@ -331,6 +364,21 @@ const Products: FC<idProps> = () => {
           />
         </Box>
       </GridItem>
+      <Modal onClose={onClose} isOpen={isOpen} size="xl" isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>
+            Add{" "}
+            <Text as="kbd" color="red.500">
+              {productName}{" "}
+            </Text>
+            to your Cart
+          </ModalHeader>
+          <ModalBody>
+            <ProductModal id={productId} />
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </Grid>
   );
 };
