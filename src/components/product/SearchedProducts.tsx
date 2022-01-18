@@ -115,14 +115,8 @@ const SearchedProducts: FC = () => {
           <Stack>
             <HStack spacing={2}>
               <Heading fontSize="4xl" mr={4}>
-                {data?.data[0].categoryTitle}
+                Searched Product : {searchQuery}
               </Heading>
-              <Image
-                src={data?.data[0].categoryIcon}
-                alt=""
-                borderRadius="full"
-                height="100px"
-              />
             </HStack>
 
             {data?.data.length === 1 ? (

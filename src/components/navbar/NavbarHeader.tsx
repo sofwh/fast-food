@@ -7,8 +7,9 @@ import {
   Box,
   VStack,
   Heading,
-  Spacer,
   Button,
+  Spacer,
+  Avatar,
   useToast,
   Text,
   Badge,
@@ -16,15 +17,16 @@ import {
 import { FC, useState, FormEvent, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
 import { BsMinecartLoaded } from "react-icons/bs";
-import { useGetCategoriesQuery } from "../../features/categories";
 import { Link, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { useUserProfileQuery } from "../../features/auth";
+import { BiLogOutCircle } from "react-icons/bi";
 
 const NavbarHeader: FC = () => {
   const toast = useToast();
-  const { data, error, isLoading } = useGetCategoriesQuery();
   const navigate = useNavigate();
   const [queryValue, setQueryValue] = useState("");
+  const { data, error, isLoading } = useUserProfileQuery();
 
   const submitHandler = (e: FormEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -37,7 +39,7 @@ const NavbarHeader: FC = () => {
 
   useEffect(() => {
     setAccessToken(accessToken);
-  }, []);
+  }, [accessToken]);
   return (
     <div>
       <header className="header-padding">
@@ -79,41 +81,29 @@ const NavbarHeader: FC = () => {
                   <Heading as="h2">FastFood</Heading>
                 </Link>
               </HStack>
-              <div className="category-data">
-                {error || isLoading ? (
-                  <Button
-                    isLoading
-                    loadingText="Categories"
-                    colorScheme="teal"
-                    variant="outline"
-                    spinnerPlacement="start"
-                  >
-                    Categories
-                  </Button>
-                ) : null}
-                {data
-                  ? data.data.map((c) => (
-                      <Link to={`category/${c.id}`} key={c.id}>
-                        <Button variant="outline">{c.title}</Button>
-                      </Link>
-                    ))
-                  : null}
-              </div>
             </VStack>
           </Box>
           <Spacer />
 
           <Box>
             <HStack>
-              <IconButton aria-label="account" icon={<FaUser />} />
-
               {tokenValue ? (
                 <>
-                  {" "}
                   <Link to="user/profile">
-                    <Badge variant="solid">
-                      {Cookies.get("firstName")} {Cookies.get("lastName")}
-                    </Badge>
+                    <Flex>
+                      <Avatar src={data?.data.image} />
+                      <Box ml="3">
+                        <Text fontWeight="bold">
+                          {data?.data.firstName} {""} {data?.data.lastName}
+                          <Badge ml="1" colorScheme="green">
+                            {data?.data.total_loyalty_points === null
+                              ? 0
+                              : data?.data.total_loyalty_points}{" "}
+                            points
+                          </Badge>
+                        </Text>
+                      </Box>
+                    </Flex>
                   </Link>
                 </>
               ) : (
@@ -130,6 +120,18 @@ const NavbarHeader: FC = () => {
                 </>
               )}
               <IconButton aria-label="cart" icon={<BsMinecartLoaded />} />
+              {tokenValue ? (
+                <Button
+                  aria-label="logout"
+                  rightIcon={<BiLogOutCircle />}
+                  onClick={() => {
+                    Cookies.remove("access_token");
+                    navigate("/login");
+                  }}
+                >
+                  Logout
+                </Button>
+              ) : null}
             </HStack>
           </Box>
         </Flex>

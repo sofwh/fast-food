@@ -17,6 +17,7 @@ import {
   ChangePasswordResponse,
   UserSuccess,
   ChangePasswordBody,
+  OrderHistory,
 } from "../types/auth";
 import Cookies from "js-cookie";
 
@@ -29,7 +30,7 @@ export const usersApi = createApi({
     prepareHeaders: (headers) => {
       headers.set("Api-key", apiKey);
       if (token !== "") {
-        headers.set("Authorization", token as string);
+        headers.set("Authorization", `Bearer ${token}`);
       } else {
         headers.set("Warehouse-Id", warehouseId);
       }
@@ -39,14 +40,14 @@ export const usersApi = createApi({
   tagTypes: ["User"],
   endpoints: (builder) => ({
     createNewUser: builder.mutation<UserResponse, UserRegister>({
-      query: ({ firstName, lastName, email, phone, password }) => ({
+      query: ({ first_name, last_name, email, mobile_number, password }) => ({
         url: "api/v4/auth/signup",
         method: "POST",
         body: {
-          first_name: firstName,
-          last_name: lastName,
+          first_name: first_name,
+          last_name: last_name,
           email: email,
-          mobile_number: phone,
+          mobile_number: mobile_number,
           password: password,
         },
       }),
@@ -75,12 +76,12 @@ export const usersApi = createApi({
       providesTags: ["User"],
     }),
     updateUser: builder.mutation<UserSuccess, UpdateUserProfile>({
-      query: ({ firstName, lastName }) => ({
+      query: ({ first_name, last_name }) => ({
         url: "api/v4/profile",
         method: "PATCH",
         body: JSON.stringify({
-          "first-name": firstName,
-          "last-name": lastName,
+          "first-name": first_name,
+          "last-name": last_name,
         }),
       }),
       invalidatesTags: ["User"],
@@ -98,14 +99,20 @@ export const usersApi = createApi({
       ChangePasswordResponse,
       ChangePasswordBody
     >({
-      query: ({ oldPassword, newPassword, confirmPassword }) => ({
+      query: ({ old_password, new_password, confirm_password }) => ({
         url: "api/v4/profile/change-password",
         method: "POST",
         body: JSON.stringify({
-          "old-password": oldPassword,
-          "new-password": newPassword,
-          "confirm-password": confirmPassword,
+          "old-password": old_password,
+          "new-password": new_password,
+          "confirm-password": confirm_password,
         }),
+      }),
+    }),
+    orderHistory: builder.query<OrderHistory, void>({
+      query: () => ({
+        url: `api/v4/order`,
+        method: "GET",
       }),
     }),
   }),
@@ -118,4 +125,5 @@ export const {
   useUpdateUserMutation,
   useUserLoginMutation,
   useUserProfileQuery,
+  useOrderHistoryQuery,
 } = usersApi;

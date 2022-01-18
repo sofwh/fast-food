@@ -1,7 +1,9 @@
 import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
+import ForgotPassword from "./components/auth/ForgotPassword";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
+import UserProfile from "./components/auth/User/UserProfile";
 import Footer from "./components/footer/Footer";
 import Home from "./components/home/Home";
 import NavbarHeader from "./components/navbar/NavbarHeader";
@@ -21,6 +23,8 @@ const App: FC = () => {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/user/profile" element={<UserProfile />} />
           <Route path="/category/:id" element={<Product />} />
           <Route path="/product/:id" element={<SingleProduct />} />
           <Route path="/products/:searchQuery" element={<SearchedProducts />} />

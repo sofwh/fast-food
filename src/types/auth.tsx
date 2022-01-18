@@ -27,10 +27,10 @@ export interface LoggedUser {
 }
 
 export interface UserRegister {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
-  phone: string;
+  mobile_number: string;
   password: string;
 }
 
@@ -40,14 +40,14 @@ export interface LoginUser {
 }
 
 export interface UpdateUserProfile {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
 }
 
 export interface ChangePasswordBody {
-  oldPassword: string;
-  newPassword: string;
-  confirmPassword: string;
+  old_password: string;
+  new_password: string;
+  confirm_password: string;
 }
 
 export interface ErrorResponse {
@@ -75,6 +75,21 @@ export interface Metas {
     links: [];
   };
 }
+
+export interface UserOrder {
+  orderNumber: string;
+  orderDate: string;
+  orderProductsCount: number;
+  total: number;
+  status: string;
+}
+
+export interface OrderHistory {
+  meta: Metas;
+  data: UserOrder[];
+  code: number;
+}
+
 export type UserResponse = UserSuccess | ErrorResponse;
 
 export type LoginUserResponse = LoggedUser | ErrorResponse;
