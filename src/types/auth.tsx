@@ -51,11 +51,17 @@ export interface ChangePasswordBody {
 }
 
 export interface ErrorResponse {
-  meta: {
-    version: string;
-    error_type: string;
+  data: {
+    meta: {
+      copyright: string;
+      emails: string;
+      api: {
+        version: string;
+      };
+    };
+    errors: Error[];
+    code: number;
   };
-  errors: Error[];
 }
 
 export interface Metas {

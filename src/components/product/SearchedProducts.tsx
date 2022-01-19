@@ -24,6 +24,7 @@ import {
   ModalHeader,
   Heading,
   ModalBody,
+  useToast,
 } from "@chakra-ui/react";
 import { FaLocationArrow } from "react-icons/fa";
 import CategoryCard from "../category/CategoryCard";
@@ -38,6 +39,7 @@ import { useNavigate, useParams } from "react-router";
 import Pagination from "../Pagination";
 import ProductModal from "../product/ProductModal";
 import { Product } from "../../types/Products";
+import { useAddToCartMutation } from "../../features/cart";
 
 const SearchedProducts: FC = () => {
   const { searchQuery } = useParams<Record<string, string | undefined>>();
@@ -53,6 +55,10 @@ const SearchedProducts: FC = () => {
   useEffect(() => {
     setProducts(data?.data || []);
   }, [data]);
+
+  // AddtoCart
+  const toast = useToast();
+  const [addToCart, result] = useAddToCartMutation();
 
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -247,6 +253,40 @@ const SearchedProducts: FC = () => {
                               onOpen();
                               setProductId(s.id);
                               setProductName(s.title);
+                              addToCart({
+                                productId: s.id,
+                                priceId: s?.unitPrice[0].id,
+                                quantity: 1,
+                              });
+
+                              if (result.isLoading) {
+                                toast({
+                                  title: "Item adding to cart ...",
+                                  status: "info",
+                                  duration: 1000,
+                                  isClosable: true,
+                                  position: "top",
+                                });
+                              } else if (result.isSuccess) {
+                                toast({
+                                  title: "Item added to Cart",
+                                  status: "success",
+                                  duration: 5000,
+                                  position: "top",
+                                  isClosable: true,
+                                });
+                                setTimeout(() => {
+                                  navigate("/");
+                                }, 3000);
+                              } else if (result.isError) {
+                                toast({
+                                  title: "Faile to add item",
+                                  status: "error",
+                                  duration: 1000,
+                                  isClosable: true,
+                                  position: "top",
+                                });
+                              }
                             }}
                           >
                             Add to Cart
@@ -330,6 +370,40 @@ const SearchedProducts: FC = () => {
                                   onOpen();
                                   setProductId(s.id);
                                   setProductName(s.title);
+                                  addToCart({
+                                    productId: s.id,
+                                    priceId: s?.unitPrice[0].id,
+                                    quantity: 1,
+                                  });
+
+                                  if (result.isLoading) {
+                                    toast({
+                                      title: "Item adding to cart ...",
+                                      status: "info",
+                                      duration: 1000,
+                                      isClosable: true,
+                                      position: "top",
+                                    });
+                                  } else if (result.isSuccess) {
+                                    toast({
+                                      title: "Item added to Cart",
+                                      status: "success",
+                                      duration: 5000,
+                                      position: "top",
+                                      isClosable: true,
+                                    });
+                                    setTimeout(() => {
+                                      navigate("/");
+                                    }, 3000);
+                                  } else if (result.isError) {
+                                    toast({
+                                      title: "Faile to add item",
+                                      status: "error",
+                                      duration: 1000,
+                                      isClosable: true,
+                                      position: "top",
+                                    });
+                                  }
                                 }}
                               >
                                 Add to Cart

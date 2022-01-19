@@ -24,6 +24,7 @@ import { MdOutlineAlternateEmail, MdPassword } from "react-icons/md";
 import { GoDeviceMobile } from "react-icons/go";
 import { Link, useNavigate } from "react-router-dom";
 import food from "../../assets/food.avif";
+import CustomBreadcumb from "../CustomBreadcumb";
 
 const Register: FC = () => {
   const toast = useToast();
@@ -84,159 +85,162 @@ const Register: FC = () => {
     validationSchema,
   });
   return (
-    <Container p="4" maxW="90em" height="800px">
-      <SimpleGrid
-        minChildWidth="200px"
-        spacing="40px"
-        columns={2}
-        border="1px solid black"
-        p="4"
-      >
-        <Box p="4" height="500px" backgroundImage={`url(${food}) `}>
-          <Heading color="white">Create your account here</Heading>
-          <br />
-          <Divider />
-          <br />
+    <>
+      <CustomBreadcumb title="Register" />
+      <Container p="4" maxW="90em" height="800px">
+        <SimpleGrid
+          minChildWidth="200px"
+          spacing="40px"
+          columns={2}
+          border="1px solid black"
+          p="4"
+        >
+          <Box p="4" height="500px" backgroundImage={`url(${food}) `}>
+            <Heading color="white">Create your account here</Heading>
+            <br />
+            <Divider />
+            <br />
 
-          <Text as="kbd" color="white">
-            Already have an acccount ? <Link to="/login">Log in</Link>
-          </Text>
-        </Box>
-        <Box display="grid" justifyContent="center" p="4" mt="3">
-          <form onSubmit={formik.handleSubmit}>
-            <Stack spacing={4}>
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<BiUser color="gray.300" />}
-                />
-                <Input
-                  type="text"
-                  placeholder="First Name "
-                  {...formik.getFieldProps("first_name")}
-                />
-              </InputGroup>
-              {formik.touched.first_name && formik.errors.first_name ? (
-                <Badge colorScheme="red" variant="solid" p="3">
-                  {formik.errors.first_name}
-                </Badge>
-              ) : null}
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<BiUser color="gray.300" />}
-                />
-                <Input
-                  type="text"
-                  placeholder="Last Name "
-                  {...formik.getFieldProps("last_name")}
-                />
-              </InputGroup>
-              {formik.touched.last_name && formik.errors.last_name ? (
-                <Badge colorScheme="red" variant="solid" p="3">
-                  {formik.errors.last_name}
-                </Badge>
-              ) : null}
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<MdOutlineAlternateEmail color="gray.300" />}
-                />
-                <Input
-                  type="email"
-                  placeholder="Email Address "
-                  {...formik.getFieldProps("email")}
-                />
-              </InputGroup>
-              {formik.touched.email && formik.errors.email ? (
-                <Badge colorScheme="red" variant="solid" p="3">
-                  {formik.errors.email}
-                </Badge>
-              ) : null}
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<GoDeviceMobile color="gray.300" />}
-                />
-                <Input
-                  type="tel"
-                  placeholder="Mobile Number "
-                  {...formik.getFieldProps("mobile_number")}
-                />
-              </InputGroup>
-              {formik.touched.mobile_number && formik.errors.mobile_number ? (
-                <Badge colorScheme="red" variant="solid" p="3">
-                  {formik.errors.mobile_number}
-                </Badge>
-              ) : null}
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<MdPassword color="gray.300" />}
-                />
-                <Input
-                  pr="4.5rem"
-                  type={show ? "text" : "password"}
-                  placeholder="Password"
-                  {...formik.getFieldProps("password")}
-                />
-                <InputRightElement width="4.5rem">
-                  <Button
-                    h="1.75rem"
-                    size="sm"
-                    onClick={handleClick}
-                    colorScheme="teal"
-                    variant="solid"
-                  >
-                    {show ? "Hide" : "Show"}
+            <Text as="kbd" color="white">
+              Already have an acccount ? <Link to="/login">Log in</Link>
+            </Text>
+          </Box>
+          <Box display="grid" justifyContent="center" p="4" mt="3">
+            <form onSubmit={formik.handleSubmit}>
+              <Stack spacing={4}>
+                <InputGroup>
+                  <InputLeftElement
+                    pointerEvents="none"
+                    children={<BiUser color="gray.300" />}
+                  />
+                  <Input
+                    type="text"
+                    placeholder="First Name "
+                    {...formik.getFieldProps("first_name")}
+                  />
+                </InputGroup>
+                {formik.touched.first_name && formik.errors.first_name ? (
+                  <Badge colorScheme="red" variant="solid" p="3">
+                    {formik.errors.first_name}
+                  </Badge>
+                ) : null}
+                <InputGroup>
+                  <InputLeftElement
+                    pointerEvents="none"
+                    children={<BiUser color="gray.300" />}
+                  />
+                  <Input
+                    type="text"
+                    placeholder="Last Name "
+                    {...formik.getFieldProps("last_name")}
+                  />
+                </InputGroup>
+                {formik.touched.last_name && formik.errors.last_name ? (
+                  <Badge colorScheme="red" variant="solid" p="3">
+                    {formik.errors.last_name}
+                  </Badge>
+                ) : null}
+                <InputGroup>
+                  <InputLeftElement
+                    pointerEvents="none"
+                    children={<MdOutlineAlternateEmail color="gray.300" />}
+                  />
+                  <Input
+                    type="email"
+                    placeholder="Email Address "
+                    {...formik.getFieldProps("email")}
+                  />
+                </InputGroup>
+                {formik.touched.email && formik.errors.email ? (
+                  <Badge colorScheme="red" variant="solid" p="3">
+                    {formik.errors.email}
+                  </Badge>
+                ) : null}
+                <InputGroup>
+                  <InputLeftElement
+                    pointerEvents="none"
+                    children={<GoDeviceMobile color="gray.300" />}
+                  />
+                  <Input
+                    type="tel"
+                    placeholder="Mobile Number "
+                    {...formik.getFieldProps("mobile_number")}
+                  />
+                </InputGroup>
+                {formik.touched.mobile_number && formik.errors.mobile_number ? (
+                  <Badge colorScheme="red" variant="solid" p="3">
+                    {formik.errors.mobile_number}
+                  </Badge>
+                ) : null}
+                <InputGroup>
+                  <InputLeftElement
+                    pointerEvents="none"
+                    children={<MdPassword color="gray.300" />}
+                  />
+                  <Input
+                    pr="4.5rem"
+                    type={show ? "text" : "password"}
+                    placeholder="Password"
+                    {...formik.getFieldProps("password")}
+                  />
+                  <InputRightElement width="4.5rem">
+                    <Button
+                      h="1.75rem"
+                      size="sm"
+                      onClick={handleClick}
+                      colorScheme="teal"
+                      variant="solid"
+                    >
+                      {show ? "Hide" : "Show"}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+                {formik.touched.password && formik.errors.password ? (
+                  <Badge colorScheme="red" variant="solid" p="3">
+                    {formik.errors.password}
+                  </Badge>
+                ) : null}
+                <Center>
+                  <Button size="md" p="4" colorScheme="twitter" type="submit">
+                    Register
                   </Button>
-                </InputRightElement>
-              </InputGroup>
-              {formik.touched.password && formik.errors.password ? (
-                <Badge colorScheme="red" variant="solid" p="3">
-                  {formik.errors.password}
-                </Badge>
-              ) : null}
-              <Center>
-                <Button size="md" p="4" colorScheme="twitter" type="submit">
-                  Register
-                </Button>
-              </Center>
-            </Stack>
-          </form>
-        </Box>
-        {result.isLoading
-          ? toast({
-              title: "Processing",
-              description: "We are creating your account for you.",
-              status: "info",
-              duration: 1000,
-              isClosable: true,
-              position: "top",
-            })
-          : null}
-        {result.isSuccess
-          ? toast({
-              title: "Account created.",
-              description: "We've created your account for you.",
-              status: "success",
-              duration: 5000,
-              position: "top",
-              isClosable: true,
-            })
-          : null}
-        {result.isError
-          ? toast({
-              title: "Account creation failed",
-              description: "We're unable to create  account for you.",
-              status: "error",
-              duration: 3000,
-              position: "top",
-              isClosable: true,
-            })
-          : null}
-      </SimpleGrid>
-    </Container>
+                </Center>
+              </Stack>
+            </form>
+          </Box>
+          {result.isLoading
+            ? toast({
+                title: "Processing",
+                description: "We are creating your account for you.",
+                status: "info",
+                duration: 1000,
+                isClosable: true,
+                position: "top",
+              })
+            : null}
+          {result.isSuccess
+            ? toast({
+                title: "Account created.",
+                description: "We've created your account for you.",
+                status: "success",
+                duration: 5000,
+                position: "top",
+                isClosable: true,
+              })
+            : null}
+          {result.isError
+            ? toast({
+                title: "Account creation failed",
+                description: "We're unable to create  account for you.",
+                status: "error",
+                duration: 3000,
+                position: "top",
+                isClosable: true,
+              })
+            : null}
+        </SimpleGrid>
+      </Container>
+    </>
   );
 };
 

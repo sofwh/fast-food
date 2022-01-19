@@ -7,6 +7,7 @@ import {
   Container,
 } from "@chakra-ui/react";
 import React from "react";
+import CustomBreadcumb from "../../CustomBreadcumb";
 import ChangePassword from "./ChangePassword";
 import DeliveryAddress from "./DeliveryAddress";
 import OrderHistory from "./OrderHistory";
@@ -15,6 +16,7 @@ import UserInformation from "./UserInformation";
 const UserProfile = () => {
   return (
     <>
+      <CustomBreadcumb title="User Profile" />
       <Container p="5" height="600px" maxW="80em">
         <Tabs isFitted variant="enclosed" colorScheme="red">
           <TabList>

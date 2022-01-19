@@ -14,20 +14,27 @@ import {
   NumberIncrementStepper,
   NumberDecrementStepper,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import { FC, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
 import { useGetSingleProductQuery } from "../../features/products";
 import boafresh from "../../assets/boafresh.png";
 import { ImageDetails } from "../../types/Products";
+import { useAddToCartMutation } from "../../features/cart";
+import { useNavigate } from "react-router-dom";
 
 interface idProps {
   id?: number;
 }
 
 const ProductModal: FC<idProps> = (id) => {
+  const toast = useToast();
+  const navigate = useNavigate();
   const { data, error, isLoading } = useGetSingleProductQuery(id.id as number);
   const [quantityValue, setQuantityValue] = useState<string | "1">("1");
+
+  const [addToCart, result] = useAddToCartMutation();
 
   const handleChange = (quantityValue: string) =>
     setQuantityValue(quantityValue as string);
@@ -126,7 +133,47 @@ const ProductModal: FC<idProps> = (id) => {
                   </NumberInputStepper>
                 </NumberInput>
 
-                <Button colorScheme="green">Add to Cart</Button>
+                <Button
+                  colorScheme="green"
+                  onClick={() => {
+                    addToCart({
+                      productId: data?.data.id,
+                      priceId: data?.data.unitPrice[0].id,
+                      quantity: parseInt(quantityValue),
+                    });
+
+                    if (result.isLoading) {
+                      toast({
+                        title: "Item adding to cart ...",
+                        status: "info",
+                        duration: 1000,
+                        isClosable: true,
+                        position: "top",
+                      });
+                    } else if (result.isSuccess) {
+                      toast({
+                        title: "Item added to Cart",
+                        status: "success",
+                        duration: 5000,
+                        position: "top",
+                        isClosable: true,
+                      });
+                      setTimeout(() => {
+                        navigate(-1);
+                      }, 3000);
+                    } else if (result.isError) {
+                      toast({
+                        title: "Faile to add item",
+                        status: "error",
+                        duration: 1000,
+                        isClosable: true,
+                        position: "top",
+                      });
+                    }
+                  }}
+                >
+                  Add to Cart
+                </Button>
               </HStack>
             </Box>
           </>

@@ -23,6 +23,7 @@ import { MdOutlineAlternateEmail, MdPassword } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import food from "../../assets/food.avif";
 import Cookies from "js-cookie";
+import CustomBreadcumb from "../CustomBreadcumb";
 
 const Login: FC = () => {
   const navigate = useNavigate();
@@ -71,12 +72,12 @@ const Login: FC = () => {
       });
       setTimeout(() => {
         navigate("/");
-      }, 6000);
+      }, 3000);
       Cookies.set("access_token", result.data.access_token);
-      console.log("At", result.data.access_token);
     } else if (result.isError) {
       toast({
         title: "Login Unsuccessful",
+        description: "User credentials were incorrect",
         status: "error",
         duration: 1000,
         isClosable: true,
@@ -91,87 +92,91 @@ const Login: FC = () => {
     validationSchema,
   });
   return (
-    <Container p="4" maxW="90em" height="800px">
-      <SimpleGrid
-        minChildWidth="200px"
-        spacing="40px"
-        columns={2}
-        border="1px solid black"
-        p="4"
-      >
-        <Box p="4" height="500px" backgroundImage={`url(${food}) `}>
-          <Heading color="white">Log in to your account</Heading>
-          <br />
-          <Divider />
-          <br />
+    <>
+      <CustomBreadcumb title="Login" />
 
-          <Text as="kbd" color="white">
-            Dont't have an acccount ? <Link to="/register">Sign up</Link>
-          </Text>
-        </Box>
-        <Box display="grid" justifyContent="center" p="4" mt="5">
-          <form onSubmit={formik.handleSubmit}>
-            <Stack spacing={4}>
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<MdOutlineAlternateEmail color="gray.300" />}
-                />
-                <Input
-                  type="email"
-                  placeholder="Email Address "
-                  {...formik.getFieldProps("email")}
-                />
-              </InputGroup>
-              {formik.touched.email && formik.errors.email ? (
-                <Badge colorScheme="red" variant="solid" p="3">
-                  {formik.errors.email}
-                </Badge>
-              ) : null}
+      <Container p="4" maxW="90em" height="800px">
+        <SimpleGrid
+          minChildWidth="200px"
+          spacing="40px"
+          columns={2}
+          border="1px solid black"
+          p="4"
+        >
+          <Box p="4" height="500px" backgroundImage={`url(${food}) `}>
+            <Heading color="white">Log in to your account</Heading>
+            <br />
+            <Divider />
+            <br />
 
-              <InputGroup>
-                <InputLeftElement
-                  pointerEvents="none"
-                  children={<MdPassword color="gray.300" />}
-                />
-                <Input
-                  pr="4.5rem"
-                  type={show ? "text" : "password"}
-                  placeholder="Password"
-                  {...formik.getFieldProps("password")}
-                />
-                <InputRightElement width="4.5rem">
-                  <Button
-                    h="1.75rem"
-                    size="sm"
-                    onClick={handleClick}
-                    colorScheme="teal"
-                    variant="solid"
-                  >
-                    {show ? "Hide" : "Show"}
+            <Text as="kbd" color="white">
+              Dont't have an acccount ? <Link to="/register">Sign up</Link>
+            </Text>
+          </Box>
+          <Box display="grid" justifyContent="center" p="4" mt="5">
+            <form onSubmit={formik.handleSubmit}>
+              <Stack spacing={4}>
+                <InputGroup>
+                  <InputLeftElement
+                    pointerEvents="none"
+                    children={<MdOutlineAlternateEmail color="gray.300" />}
+                  />
+                  <Input
+                    type="email"
+                    placeholder="Email Address "
+                    {...formik.getFieldProps("email")}
+                  />
+                </InputGroup>
+                {formik.touched.email && formik.errors.email ? (
+                  <Badge colorScheme="red" variant="solid" p="3">
+                    {formik.errors.email}
+                  </Badge>
+                ) : null}
+
+                <InputGroup>
+                  <InputLeftElement
+                    pointerEvents="none"
+                    children={<MdPassword color="gray.300" />}
+                  />
+                  <Input
+                    pr="4.5rem"
+                    type={show ? "text" : "password"}
+                    placeholder="Password"
+                    {...formik.getFieldProps("password")}
+                  />
+                  <InputRightElement width="4.5rem">
+                    <Button
+                      h="1.75rem"
+                      size="sm"
+                      onClick={handleClick}
+                      colorScheme="teal"
+                      variant="solid"
+                    >
+                      {show ? "Hide" : "Show"}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+                {formik.touched.password && formik.errors.password ? (
+                  <Badge colorScheme="red" variant="solid" p="3">
+                    {formik.errors.password}
+                  </Badge>
+                ) : null}
+                <Box>
+                  <Link to="/forgot-password">
+                    <Text color="red">Forgot Password ?</Text>
+                  </Link>
+                </Box>
+                <Center>
+                  <Button size="md" p="4" colorScheme="twitter" type="submit">
+                    Login
                   </Button>
-                </InputRightElement>
-              </InputGroup>
-              {formik.touched.password && formik.errors.password ? (
-                <Badge colorScheme="red" variant="solid" p="3">
-                  {formik.errors.password}
-                </Badge>
-              ) : null}
-              <Box>
-                <Link to="/forgot-password">
-                  <Text color="red">Forgot Password ?</Text>
-                </Link>
-              </Box>
-              <Center>
-                <Button size="md" p="4" colorScheme="twitter" type="submit">
-                  Login
-                </Button>
-              </Center>
-            </Stack>
-          </form>
-        </Box>
-      </SimpleGrid>
-    </Container>
+                </Center>
+              </Stack>
+            </form>
+          </Box>
+        </SimpleGrid>
+      </Container>
+    </>
   );
 };
 
