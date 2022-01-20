@@ -40,6 +40,9 @@ const SingleProduct: FC<slugProps> = () => {
 
   const handleChange = (quantityValue: string) =>
     setQuantityValue(quantityValue as string);
+  useEffect(() => {
+    document.title = `FastFood | ${data?.data.title}`;
+  });
   return (
     <>
       <CustomBreadcumb title={data?.data.title} />

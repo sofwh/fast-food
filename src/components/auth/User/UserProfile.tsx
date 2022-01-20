@@ -6,7 +6,7 @@ import {
   Tab,
   Container,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 import CustomBreadcumb from "../../CustomBreadcumb";
 import ChangePassword from "./ChangePassword";
 import DeliveryAddress from "./DeliveryAddress";
@@ -14,6 +14,9 @@ import OrderHistory from "./OrderHistory";
 import UserInformation from "./UserInformation";
 
 const UserProfile = () => {
+  useEffect(() => {
+    document.title = `FastFood | User Profile`;
+  });
   return (
     <>
       <CustomBreadcumb title="User Profile" />

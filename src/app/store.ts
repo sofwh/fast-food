@@ -1,8 +1,10 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import { addressApi } from "../features/address";
 import { usersApi } from "../features/auth";
 import { cartApi } from "../features/cart";
 import { categoriesApi } from "../features/categories";
 import { homeApi } from "../features/home";
+import { paymentApi } from "../features/payment";
 import { productsApi } from "../features/products";
 
 export const store = configureStore({
@@ -12,6 +14,8 @@ export const store = configureStore({
     [productsApi.reducerPath]: productsApi.reducer,
     [usersApi.reducerPath]: usersApi.reducer,
     [cartApi.reducerPath]: cartApi.reducer,
+    [addressApi.reducerPath]: addressApi.reducer,
+    [paymentApi.reducerPath]: paymentApi.reducer,
   },
 
   middleware: (getDefaultMiddleware) =>
@@ -20,7 +24,9 @@ export const store = configureStore({
       homeApi.middleware,
       productsApi.middleware,
       usersApi.middleware,
-      cartApi.middleware
+      cartApi.middleware,
+      addressApi.middleware,
+      paymentApi.middleware
     ),
 });
 

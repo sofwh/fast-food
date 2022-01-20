@@ -54,7 +54,8 @@ const SearchedProducts: FC = () => {
 
   useEffect(() => {
     setProducts(data?.data || []);
-  }, [data]);
+    document.title = `FastFood | ${searchQuery}`;
+  }, [data, searchQuery]);
 
   // AddtoCart
   const toast = useToast();

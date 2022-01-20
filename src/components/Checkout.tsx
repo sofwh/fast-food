@@ -22,16 +22,27 @@ import {
   RadioGroup,
   Radio,
   HStack,
+  useToast,
 } from "@chakra-ui/react";
-import React, { FC, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useGetCartQuery } from "../features/cart";
 import { CartItems } from "../types/cart";
 import { BsCashCoin, BsCreditCard } from "react-icons/bs";
 import CustomBreadcumb from "./CustomBreadcumb";
+import DeliveryAddress from "./auth/User/DeliveryAddress";
+import { useGetAddressQuery } from "../features/address";
+import { Navigate, useNavigate } from "react-router-dom";
 
-const Checkout: FC = () => {
+const Checkout = () => {
   const [paymentId, setPaymentId] = useState("1");
   const cartData = useGetCartQuery();
+  const navigate = useNavigate();
+  const toast = useToast();
+  const { data, error, isLoading } = useGetAddressQuery();
+
+  useEffect(() => {
+    document.title = "FastFood | Checkout";
+  });
   return (
     <>
       <CustomBreadcumb title="Checkout" />
@@ -50,10 +61,7 @@ const Checkout: FC = () => {
                   </AccordionButton>
                 </h2>
                 <AccordionPanel pb={4}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
+                  <DeliveryAddress />
                 </AccordionPanel>
               </AccordionItem>
 
@@ -102,7 +110,7 @@ const Checkout: FC = () => {
               <Tbody>
                 {(cartData?.data?.data.cartProducts as CartItems[]).map(
                   (p: CartItems) => (
-                    <Tr>
+                    <Tr key={p.id}>
                       <Td>
                         {p.product.title} X {p.quantity}
                       </Td>
@@ -132,7 +140,16 @@ const Checkout: FC = () => {
                   <Text color="red.400" fontWeight="bolder">
                     Rs {cartData.data?.data.total}
                   </Text>
-                  <Text>Kathmandu ,Nepal</Text>
+                  {data?.data.map((s) =>
+                    s.isDefault ? (
+                      <>
+                        <Text isTruncated key={s.id}>
+                          {s.detail.formatted_address}
+                        </Text>
+                      </>
+                    ) : null
+                  )}
+
                   {paymentId === "1" ? (
                     <Text>Cash on Delivery</Text>
                   ) : (
@@ -141,10 +158,24 @@ const Checkout: FC = () => {
                 </Stack>
               </Box>
             </Flex>
+            <Button
+              variant="solid"
+              colorScheme="red"
+              mt="5"
+              onClick={() => {
+                toast({
+                  title: "Your order is placed",
+                  status: "success",
+                  duration: 1000,
+                  isClosable: true,
+                  position: "top",
+                });
+                navigate("/");
+              }}
+            >
+              Place Order
+            </Button>
           </Box>
-          <Button variant="solid" colorScheme="red">
-            Place Order
-          </Button>
         </SimpleGrid>
       </Container>
     </>

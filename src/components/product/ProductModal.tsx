@@ -159,7 +159,7 @@ const ProductModal: FC<idProps> = (id) => {
                         isClosable: true,
                       });
                       setTimeout(() => {
-                        navigate(-1);
+                        navigate("/");
                       }, 3000);
                     } else if (result.isError) {
                       toast({

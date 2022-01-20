@@ -41,7 +41,7 @@ const NavbarHeader: FC = () => {
 
   return (
     <header className="header-padding">
-      <SimpleGrid columns={4} minChildWidth="300px" spacing={20}>
+      <SimpleGrid columns={2} minChildWidth="300px" spacing={20}>
         <Box>
           <Link to="/">
             <Heading as="h2">FastFood</Heading>
@@ -49,7 +49,7 @@ const NavbarHeader: FC = () => {
         </Box>
 
         <Box>
-          <HStack>
+          <HStack spacing={6}>
             <Input
               type="text"
               value={queryValue}
@@ -76,10 +76,7 @@ const NavbarHeader: FC = () => {
                 }
               }}
             />
-          </HStack>
-        </Box>
-        <Box>
-          <HStack>
+
             {tokenValue ? (
               <>
                 <Link to="user/profile">
