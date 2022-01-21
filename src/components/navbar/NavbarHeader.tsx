@@ -14,7 +14,7 @@ import {
   Badge,
   Skeleton,
   SimpleGrid,
-  Center,
+  Image,
 } from "@chakra-ui/react";
 import { FC, useState, FormEvent, useEffect } from "react";
 import { FaUser } from "react-icons/fa";
@@ -24,6 +24,7 @@ import Cookies from "js-cookie";
 import { useUserProfileQuery } from "../../features/auth";
 import { BiLogOutCircle } from "react-icons/bi";
 import { useGetCartQuery } from "../../features/cart";
+import favicon from "../../assets/favicon.png";
 
 const NavbarHeader: FC = () => {
   const toast = useToast();
@@ -44,7 +45,33 @@ const NavbarHeader: FC = () => {
       <SimpleGrid columns={2} minChildWidth="300px" spacing={20}>
         <Box>
           <Link to="/">
-            <Heading as="h2">FastFood</Heading>
+            <Box display="flex" justifyContent="flex-start" alignItems="center">
+              <Image src={favicon} alt="" boxSize="80px" />
+              <Heading size="lg" mt="4">
+                <span
+                  style={{
+                    fontFamily: "cursive",
+                    color: "green",
+                    fontSize: "50px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  F
+                </span>
+                ast
+                <span
+                  style={{
+                    fontFamily: "cursive",
+                    color: "red",
+                    fontSize: "50px",
+                    fontWeight: "bold",
+                  }}
+                >
+                  F
+                </span>
+                ood
+              </Heading>
+            </Box>
           </Link>
         </Box>
 
