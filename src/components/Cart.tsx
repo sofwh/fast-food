@@ -1,9 +1,4 @@
-import {
-  AddIcon,
-  CloseIcon,
-  MinusIcon,
-  PlusSquareIcon,
-} from "@chakra-ui/icons";
+import { AddIcon, CloseIcon, MinusIcon } from "@chakra-ui/icons";
 import {
   Box,
   Container,
@@ -25,10 +20,9 @@ import {
   HStack,
   useToast,
   Image,
-  Input,
   Badge,
 } from "@chakra-ui/react";
-import { FC, useEffect, useState } from "react";
+import { FC, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   useDeleteCartItemMutation,
@@ -38,6 +32,7 @@ import {
 } from "../features/cart";
 import { CartItems } from "../types/cart";
 import CustomBreadcumb from "./CustomBreadcumb";
+import Cookies from "js-cookie";
 import empty from "../assets/empty.svg";
 
 const Cart: FC = () => {
@@ -53,6 +48,8 @@ const Cart: FC = () => {
   useEffect(() => {
     document.title = "FastFood | Cart";
   });
+  const tokenValue = Cookies.get("access_token");
+
   return (
     <>
       <CustomBreadcumb title="Cart" />
@@ -266,16 +263,33 @@ const Cart: FC = () => {
                       </Heading>
                     </HStack>
                   </Stack>
-                  <Button
-                    colorScheme="red"
-                    variant="solid"
-                    mt="4"
-                    onClick={() => {
-                      navigate("/checkout");
-                    }}
-                  >
-                    Proceed to Checkout
-                  </Button>
+                  {tokenValue ? (
+                    <>
+                      <Button
+                        colorScheme="red"
+                        variant="solid"
+                        mt="4"
+                        onClick={() => {
+                          navigate("/checkout");
+                        }}
+                      >
+                        Proceed to Checkout
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        colorScheme="red"
+                        variant="solid"
+                        mt="4"
+                        onClick={() => {
+                          navigate("/login");
+                        }}
+                      >
+                        Proceed to Login
+                      </Button>
+                    </>
+                  )}
                 </Box>
               </Box>
             </>
